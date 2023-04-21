@@ -5,6 +5,7 @@ use App\Models\Book;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 
 
 
@@ -15,26 +16,28 @@ class BookSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {   
-        
-        $names = ['Giovanni Verdi', 'Francesco Rossi', 'Luigi Bianchi'];
-        $genres =['Horror', 'Drama', 'Comedy'];
 
-        foreach($names as $name){
+        for ($i = 0; $i < 50; $i++) {
 
-            $promessi_sposi = new Book();
-            $new_book->author = randomElement($name);
+            $genre = [
+                'Thriller',
+                'Commedia',
+                'Horror',
+                'Fantasy'
+            ];
 
-            $new_book = save();
-        };
-        
-        foreach ($genres as $genre){
-
-            $new_book->genre = randomElement($genre);
+            $new_book = new Book();
+            $new_book->author = $faker->name();
+            $new_book->genre = $faker->randomElement($genre);
+            $new_book->title = $faker->unique()->sentence($faker->numberBetween(5, 10));
+            $new_book->copies_number = $faker->numberBetween(1, 10);
+            $new_book->editor = $faker->name();
+            $new_book->save();
         }
         
-       
+        
         
     }
 }
