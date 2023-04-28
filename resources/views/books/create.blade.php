@@ -17,8 +17,13 @@
         <input type="text" class="form-control" id="author" name="author" value="{{old('author')}}" >
       </div>
       <div class="mb-3">
-        <label for="genre" class="form-label">Genere</label>
-        <input type="text" class="form-control" id="genre" name="genre"  value="{{old('genre')}}">
+        <label for="genre-id" class="form-label">Genere</label>
+        <select class="form-select @error('genre_id') is-invalid @enderror" id="genre-id" name="genre_id" aria-label="Default select example">
+          <option value="" selected>Seleziona genere</option>
+          @foreach ($genres as $genre)
+            <option @selected( old('genre_id') == $genre->id ) value="{{ $genre->id }}">{{ $genre->name }}</option>
+          @endforeach
+        </select>
       </div>
       <div class="mb-3">
         <label for="copies_number" class="form-label">Numero copie</label>

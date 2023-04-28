@@ -30,7 +30,7 @@
                             {{$book->author}}
                         </td>
                         <td>
-                            {{$book->genre}}
+                           {{$book->genre->name}}
                         </td>
                         <td>
                             {{$book->title}}

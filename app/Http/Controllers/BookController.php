@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Validation\Rule;
+use App\Models\Genre;
 
 class BookController extends Controller
 {
@@ -22,7 +23,9 @@ class BookController extends Controller
 
     public function create(){
 
-        return view('books.create');
+        $genres = Genre::orderBy('name', 'asc')->get();
+
+        return view('books.create', compact('genres'));
     }
 
     public function store(Request $request){
@@ -32,10 +35,10 @@ class BookController extends Controller
         $data = $request->validate([
 
             'author' => 'max:50|nullable',
-            'genre' => 'required|max:50',
-            'title' => 'required|max:100',
+            'title' => 'required',
             'copies_number' => 'required',
-            'editor' => 'required|max:100'
+            'editor' => 'required|max:100',
+            'genre_id' => 'required'
         ]);
 
         $new_book= Book::create($data);
@@ -45,7 +48,9 @@ class BookController extends Controller
 
     public function edit(Book $book){
 
-        return view('books.edit', compact('book'));
+        $genres = Genre::orderBy('name', 'asc')->get();
+
+        return view('books.edit', compact('book', 'genres'));
     }
 
     public function update(Request $request, Book $book){
@@ -55,10 +60,10 @@ class BookController extends Controller
         $data = $request->validate([
 
             'author' => 'max:50|nullable',
-            'genre' => 'required|max:50',
-            'title' => 'required|max:100',
+            'title' => 'required',
             'copies_number' => 'required',
-            'editor' => 'required|max:100'
+            'editor' => 'required|max:100',
+            'genre_id' => 'required'
         ]);
 
         $book->update($data);

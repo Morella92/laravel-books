@@ -8,7 +8,7 @@
                 <p> <span class="fw-bold"> Nome autore:</span>  {{$book->author}}</p>
             </li>
             <li>
-                <p> <span class="fw-bold">Genere libro:</span>  {{$book->genre}}</p>
+                <p> <span class="fw-bold">Genere libro:</span>  {{$book->genre->name}}</p>
             </li>
             <li>
                 <p> <span class="fw-bold">Numero copie:</span>  {{$book->copies_number}}</p>
@@ -17,5 +17,11 @@
                 <p> <span class="fw-bold">Editore:</span>  {{$book->editor}}</p>
             </li>
         </ul>
+
+        <div>
+            <a href="{{route('books.edit', $book)}}" class="btn btn-warning">
+                Modifica
+            </a>
+        </div>
     </div>
 @endsection

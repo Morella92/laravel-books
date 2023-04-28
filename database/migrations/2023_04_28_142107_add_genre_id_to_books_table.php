@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('books', function (Blueprint $table) {
-            $table->id();
-            $table->string('author', 50)->nullable();
-            $table->string('title', 255);
-            $table->integer('copies_number')->unsigned();
-            $table->string('editor', 100);
-            $table->timestamps();
+        Schema::table('books', function (Blueprint $table) {
+            $table->unsignedBigInteger('genre_id')->nullable()->after('id');
+            $table->foreign('genre_id')->references('id')->on('genres');
         });
     }
 
@@ -30,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('books');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropForeign(['genre_id']);
+            $table->dropColumn('genre_id');
+        });
     }
 };
