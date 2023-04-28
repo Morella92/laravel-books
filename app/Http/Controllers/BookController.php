@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -26,8 +27,17 @@ class BookController extends Controller
 
     public function store(Request $request){
 
-        $data = $request->all();
+        // $data = $request->all();
          
+        $data = $request->validate([
+
+            'author' => 'max:50|nullable',
+            'genre' => 'required|max:50',
+            'title' => 'required|max:100',
+            'copies_number' => 'required',
+            'editor' => 'required|max:100'
+        ]);
+
         $new_book= Book::create($data);
 
         return to_route('books.show', $new_book);
@@ -40,10 +50,19 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book){
 
-        $data = $request->all();
+        // $data = $request->all();
+
+        $data = $request->validate([
+
+            'author' => 'max:50|nullable',
+            'genre' => 'required|max:50',
+            'title' => 'required|max:100',
+            'copies_number' => 'required',
+            'editor' => 'required|max:100'
+        ]);
 
         $book->update($data);
-
+        
         return to_route('books.show', $book);
     }
 
