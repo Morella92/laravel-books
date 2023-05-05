@@ -13,8 +13,23 @@
                 <input type="text" class="form-control" id="title" name="title"  value="{{old('title',$book->title)}}">
             </div>
             <div class="mb-3">
-                <label for="author" class="form-label">Autore</label>
-                <input type="text" class="form-control" id="author" name="author" value="{{old('author',$book->author)}}" >
+                <label for="authors" class="form-label">Autori</label>
+                <div class="d-flex @error('authors') is-invalid @enderror flex-wrap gap-3">
+                    @foreach($authors as $key => $author)
+                    <div class="form-check">
+                        <input name="authors[]" @checked( in_array($author->id, old('authors',[]) ) ) class="form-check-input" type="checkbox" value="{{ $author->id }}" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        {{ $author->name }}
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
+
+                @error('authors')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="genre-id" class="form-label">Genere</label>

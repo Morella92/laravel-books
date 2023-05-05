@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Validation\Rule;
 use App\Models\Genre;
+use App\Models\Author;
 
 class BookController extends Controller
 {
@@ -24,8 +25,9 @@ class BookController extends Controller
     public function create(){
 
         $genres = Genre::orderBy('name', 'asc')->get();
+        $authors = Author::orderBy('name', 'asc')->get();
 
-        return view('books.create', compact('genres'));
+        return view('books.create', compact('genres', 'authors'));
     }
 
     public function store(Request $request){
@@ -38,10 +40,15 @@ class BookController extends Controller
             'title' => 'required',
             'copies_number' => 'required',
             'editor' => 'required|max:100',
-            'genre_id' => 'required'
+            'genre_id' => 'required',
+            'authors' => 'exists:authors,id'
         ]);
 
         $new_book= Book::create($data);
+
+        if(isset($data['authors'])){
+            $new_book->authors()->attach($data['authors']);
+        };
 
         return to_route('books.show', $new_book);
     }
@@ -49,8 +56,9 @@ class BookController extends Controller
     public function edit(Book $book){
 
         $genres = Genre::orderBy('name', 'asc')->get();
+        $authors = Author::orderBy('name', 'asc')->get();
 
-        return view('books.edit', compact('book', 'genres'));
+        return view('books.edit', compact('book', 'genres', 'authors'));
     }
 
     public function update(Request $request, Book $book){
@@ -63,10 +71,15 @@ class BookController extends Controller
             'title' => 'required',
             'copies_number' => 'required',
             'editor' => 'required|max:100',
-            'genre_id' => 'required'
+            'genre_id' => 'required',
+            'authors' => 'exists:authors,id'
         ]);
 
         $book->update($data);
+
+        if(isset($data['authors'])){
+            $book->authors()->sync($data['authors']);
+        };
         
         return to_route('books.show', $book);
     }

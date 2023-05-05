@@ -5,7 +5,15 @@
         <h1>{{$book->title}}</h1>
         <ul class="py-3">
             <li>
-                <p> <span class="fw-bold"> Nome autore:</span>  {{$book->author}}</p>
+                <p>  <span class="fw-bold"> Nomi autori:</span> 
+                    @forelse($book->authors as $author)
+                        <span class="badge rounded-pill text-bg-light">
+                            {{$author->name}}
+                        </span>
+                    @empty 
+                        ----
+                    @endforelse
+                </p>
             </li>
             <li>
                 <p> <span class="fw-bold">Genere libro:</span>  {{$book->genre->name}}</p>
@@ -16,6 +24,7 @@
             <li>
                 <p> <span class="fw-bold">Editore:</span>  {{$book->editor}}</p>
             </li>
+
         </ul>
 
         <div>

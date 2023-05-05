@@ -15,10 +15,15 @@ class Book extends Model
         'title',
         'copies_number',
         'editor',
-        'genre_id'
+        'genre_id',
+        'author_id'
     ];
 
     public function genre(){
         return $this->belongsTo(Genre::class);
+    }
+
+    public function authors(){
+        return $this->belongsToMany(Author::class);
     }
 }

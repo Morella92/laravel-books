@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Autore</th>
+                    <th scope="col">Autori</th>
                     <th scope="col">Genere</th>
                     <th scope="col">Titolo</th>
                     <th scope="col">Numero Copie</th>
@@ -27,7 +27,13 @@
                             {{$book->id}}
                         </th>
                         <td>
-                            {{$book->author}}
+                            @forelse($book->authors()->orderBy('name', 'asc')->get() as $author)
+                                <span class="badge rounded-pill text-bg-light">
+                                    {{$author->name}}
+                                </span>
+                            @empty 
+                                ----
+                            @endforelse
                         </td>
                         <td>
                            {{$book->genre->name}}
