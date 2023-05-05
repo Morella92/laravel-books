@@ -41,7 +41,7 @@ class BookController extends Controller
             'copies_number' => 'required',
             'editor' => 'required|max:100',
             'genre_id' => 'required',
-            'authors' => 'exists:authors,id'
+            'authors' => 'required|exists:authors,id'
         ]);
 
         $new_book= Book::create($data);
@@ -72,7 +72,7 @@ class BookController extends Controller
             'copies_number' => 'required',
             'editor' => 'required|max:100',
             'genre_id' => 'required',
-            'authors' => 'exists:authors,id'
+            'authors' => 'required|exists:authors,id'
         ]);
 
         $book->update($data);
